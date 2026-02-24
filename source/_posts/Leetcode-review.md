@@ -11,7 +11,7 @@ cover: https://pics.findfuns.org/leetcode.jpg
 ---
 # [399. Evaluate Division](https://leetcode.com/problems/evaluate-division/)
 
-问题描述：
+問題描述：
 
 You are given an array of variable pairs `equations` and an array of real numbers `values`, where `equations[i] = [Ai, Bi]` and `values[i]` represent the equation `Ai / Bi = values[i]`. Each `Ai` or `Bi` is a string that represents a single variable.
 
@@ -51,11 +51,11 @@ Output: [0.50000,2.00000,-1.00000,-1.00000]
 
 <img src="https://pics.findfuns.org/Problem 399.png" style="zoom:50%;" />
 
-这是一道典型的图论相关问题，思路是构造一个邻接矩阵`matrix`， `matrix[i][j]`代表`i/j`的值，如果没有这个值就为0。
+這是一道典型的圖論相關問題，思路是構造一個鄰接矩陣`matrix`， `matrix[i][j]`代表`i/j`的值，如果沒有這個值就爲0。
 
-构造好这个矩阵之后就可以通过BFS去递归的寻找关系，比如在Example 1中需要找到`a/c`，那么就可以先通过dfs找到`a/b`，然后再通过dfs进一步找到`b/c`从而获得`a/c`。
+構造好這個矩陣之後就可以通過BFS去遞歸的尋找關繫，比如在Example 1中需要找到`a/c`，那麼就可以先通過dfs找到`a/b`，然後再通過dfs進一步找到`b/c`從而獲得`a/c`。
 
-具体的代码思路如下
+具體的代碼思路如下
 
 ```java
 class Solution {
@@ -119,40 +119,40 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 构建map映射，即字符串和matrix中对应下标时的复杂度为`O(E)`,E为Equations的大小。
+- 構建map映射，即字符串和matrix中對應下標時的複雜度爲`O(E)`,E爲Equations的大小。
 
-- 构建邻接矩阵时的复杂度为`O(E)`。
+- 構建鄰接矩陣時的複雜度爲`O(E)`。
 
-- dfs方法在调用时最坏情况下会遍历邻接矩阵的每一个值，假设共有n个不同的字符串，即邻接矩阵有n^2个值，所以时间复杂度为`O(n^2)`。
-- for循环遍历queries时，假设共有Q个query，那么每次调用一次dfs，时间复杂度为`O(Q * n^2)`
+- dfs方法在調用時最壞情況下會遍曆鄰接矩陣的每一個值，假設共有n個不同的字符串，即鄰接矩陣有n^2個值，所以時間複雜度爲`O(n^2)`。
+- for循環遍曆queries時，假設共有Q個query，那麼每次調用一次dfs，時間複雜度爲`O(Q * n^2)`
 
-综上时间复杂度为`O(E + Q * n^2)`。
+綜上時間複雜度爲`O(E + Q * n^2)`。
 
-空间复杂度分析：
+空間複雜度分析：
 
-- matrix共有n^2个节点，复杂度为`O(n^2)`
-- map共存储n个节点，复杂度为`O(n)`
-- dfs时递归的深度可能会达到所有节点，复杂度为`O(n)`
-- dfs时的set最坏情况会包含所有节点，复杂度为`O(n)`
-- res数组假设有Q个query，复杂度为`O(Q)`
+- matrix共有n^2個節點，複雜度爲`O(n^2)`
+- map共存儲n個節點，複雜度爲`O(n)`
+- dfs時遞歸的深度可能會達到所有節點，複雜度爲`O(n)`
+- dfs時的set最壞情況會包含所有節點，複雜度爲`O(n)`
+- res數組假設有Q個query，複雜度爲`O(Q)`
 
-综上空间复杂度为`O(Q + n^2)`
+綜上空間複雜度爲`O(Q + n^2)`
 
 
 
 # [994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges/)
 
-问题描述：
+問題描述：
 
 ![](https://pics.findfuns.org/Problem 994.png)
 
 
 
-思路是先遍历grid，如果找到“烂橘子”就加入到Queue中，遍历完成之后对Queue中的所有“烂橘子”进行BFS并记录每次BFS的时间，动态更新最长时间。最后检查一遍grid，如果还存在新鲜的橘子就返回-1，如果没有就返回最长时间。
+思路是先遍曆grid，如果找到“爛橘子”就加入到Queue中，遍曆完成之後對Queue中的所有“爛橘子”進行BFS並記錄每次BFS的時間，動態更新最長時間。最後檢查一遍grid，如果還存在新鮮的橘子就返回-1，如果沒有就返回最長時間。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -192,18 +192,18 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 两个for循环的时间复杂度为`O(n*m)`，n和m分别为grid的长和宽
-- bfs最坏情况下会遍历每一个节点，时间复杂度为O(n*m)。
+- 兩個for循環的時間複雜度爲`O(n*m)`，n和m分別爲grid的長和寬
+- bfs最壞情況下會遍曆每一個節點，時間複雜度爲O(n*m)。
 
-综上时间复杂度为`O(n*m)`
+綜上時間複雜度爲`O(n*m)`
 
-空间复杂度分析：
+空間複雜度分析：
 
-- queue最坏情况下会包含所有节点，空间复杂度为`O(n*m)`
+- queue最壞情況下會包含所有節點，空間複雜度爲`O(n*m)`
 
-综上空间复杂度为`O(n*m)`
+綜上空間複雜度爲`O(n*m)`
 
 # [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
 
@@ -215,7 +215,7 @@ Koko likes to eat slowly but still wants to finish eating all the bananas before
 
 Return *the minimum integer* `k` *such that she can eat all the bananas within* `h` *hours*.
 
- 
+
 
 **Example 1:**
 
@@ -238,9 +238,9 @@ Input: piles = [30,11,23,4,20], h = 6
 Output: 23
 ```
 
-可以使用二分查找不断缩小符合要求的最小速度，直到找到最小的速度
+可以使用二分查找不斷縮小符合要求的最小速度，直到找到最小的速度
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -273,17 +273,17 @@ class Solution {
 }
 ```
 
-因为每一堆香蕉的最大数量为10^9，所以可以设置最大速度为10^9，最小速度为1。然后就可以进行二分查找，不断缩小速度。
+因爲每一堆香蕉的最大數量爲10^9，所以可以設置最大速度爲10^9，最小速度爲1。然後就可以進行二分查找，不斷縮小速度。
 
-值得注意的是在`check()方法`中用于记录用时的变量`hours`需要设置为long，不然会有溢出的风险。
+值得注意的是在`check()方法`中用於記錄用時的變量`hours`需要設置爲long，不然會有溢出的風險。
 
-时间复杂度分析：
+時間複雜度分析：
 
-- piles的长度为n，每次二分查找都需要遍历一次piles数组，复杂度为`O(n)`
-- 二分查找的范围是1-10^9，所以复杂度为`O(10^9)`
-- 综上时间复杂度为`O(10^9n)`
+- piles的長度爲n，每次二分查找都需要遍曆一次piles數組，複雜度爲`O(n)`
+- 二分查找的範圍是1-10^9，所以複雜度爲`O(10^9)`
+- 綜上時間複雜度爲`O(10^9n)`
 
-空间复杂度为`O(1)`
+空間複雜度爲`O(1)`
 
 
 
@@ -311,11 +311,11 @@ Output: 7
 Explanation: The maximum width ramp is achieved at (i, j) = (2, 9): nums[2] = 1 and nums[9] = 1.
 ```
 
-这道题其实简单来说就是找到和每个元素对应的不小于它的最远的元素，并且得到距离的最大值。
+這道題其實簡單來説就是找到和每個元素對應的不小於它的最遠的元素，並且得到距離的最大值。
 
-具体的做法是维护一个单调递减栈，从左向右遍历。再从右向左遍历，如果栈顶的元素小于等于遍历到的元素，就出栈并记录最大距离，知道栈空。
+具體的做法是維護一個單調遞減棧，從左向右遍曆。再從右向左遍曆，如果棧頂的元素小於等於遍曆到的元素，就出棧並記錄最大距離，知道棧空。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -338,18 +338,18 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 维护单调栈需要遍历每个元素， `O(n)`。
-- 第二次从右向左遍历元素最坏情况下需要遍历全部元素，`O(n)`。
+- 維護單調棧需要遍曆每個元素， `O(n)`。
+- 第二次從右向左遍曆元素最壞情況下需要遍曆全部元素，`O(n)`。
 
-时间复杂度为`O(n)`。
+時間複雜度爲`O(n)`。
 
-空间复杂度分析:
+空間複雜度分析:
 
-- 最坏情况`stack`需要记录全部元素， `O(n)`。
+- 最壞情況`stack`需要記錄全部元素， `O(n)`。
 
-空间复杂度为`O(n)`。
+空間複雜度爲`O(n)`。
 
 # [2406. Divide Intervals Into Minimum Number of Groups](https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/)
 
@@ -381,11 +381,11 @@ Output: 1
 Explanation: None of the intervals overlap, so we can put all of them in one group.
 ```
 
-这道题可以用时间线和事件的思路去解决，不必拘泥于时间对，而是把每一个时间对拆开，将其视为开始时间和结束时间。
+這道題可以用時間線和事件的思路去解決，不必拘泥於時間對，而是把每一個時間對拆開，將其視爲開始時間和結束時間。
 
-同时使用一个最小堆对时间进行排序，当存在开始时间和结束时间相同时**先处理开始时间**。维护一个变量记录同时存在的事件的最大数量，即为答案。
+同時使用一個最小堆對時間進行排序，當存在開始時間和結束時間相同時**先處理開始時間**。維護一個變量記錄同時存在的事件的最大數量，即爲答案。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -413,13 +413,13 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 假设intervals有n个事件，那么一共有2n个时间点，插入堆的复杂度为`O(log2n)`,综合复杂度为`O(2nlog(2n)) = O(nlogn)`。
+- 假設intervals有n個事件，那麼一共有2n個時間點，插入堆的複雜度爲`O(log2n)`,綜合複雜度爲`O(2nlog(2n)) = O(nlogn)`。
 
-空间复杂度分析：
+空間複雜度分析：
 
-- 堆需要`O(2n) = O(n)`的空间
+- 堆需要`O(2n) = O(n)`的空間
 
 # [632. Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/)
 
@@ -447,9 +447,9 @@ Input: nums = [[1,2,3],[1,2,3],[1,2,3]]
 Output: [1,1]
 ```
 
-涉及到“最大”“最小”问题时，往往需要考虑使用heap，因为这类问题需要频繁地获得最大最小值，而堆可以实现在`O(1)`的复杂度下得到最值，从而降低时间复杂度。
+涉及到“最大”“最小”問題時，往往需要考慮使用heap，因爲這類問題需要頻繁地獲得最大最小值，而堆可以實現在`O(1)`的複雜度下得到最值，從而降低時間複雜度。
 
-每一轮将一列元素存入heap，将最小值移出，并且动态的更新最大最小值，并记录range，再将移出元素的下一个元素加入heap，直到heap中的元素数量小于nums中数组的数量，最终获得的最小range即为答案。
+每一輪將一列元素存入heap，將最小值移出，並且動態的更新最大最小值，並記錄range，再將移出元素的下一個元素加入heap，直到heap中的元素數量小於nums中數組的數量，最終獲得的最小range即爲答案。
 
 ```java
 class Solution {
@@ -484,7 +484,7 @@ class Solution {
 ```
 
 ```
-例一的每一轮处理过程如下
+例一的每一輪處理過程如下
 
 heap 0 4 5
 max 5
@@ -532,13 +532,13 @@ max 24
 range 4
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 设nums中共有k个数组，设共有N个元素，最坏情况下heap需要遍历每一个元素，每次插入和删除元素的复杂度为`O(logk)`，时间复杂度为`O(Nlogk)`。
+- 設nums中共有k個數組，設共有N個元素，最壞情況下heap需要遍曆每一個元素，每次插入和刪除元素的複雜度爲`O(logk)`，時間複雜度爲`O(Nlogk)`。
 
-空间复杂度分析：
+空間複雜度分析：
 
-- heap中始终存在k个元素，空间复杂度为`O(k)`
+- heap中始終存在k個元素，空間複雜度爲`O(k)`
 
 # [1942. The Number of the Smallest Unoccupied Chair](https://leetcode.com/problems/the-number-of-the-smallest-unoccupied-chair/)
 
@@ -581,10 +581,10 @@ Explanation:
 Since friend 0 sat on chair 2, we return 2.
 ```
 
-- 这个问题可以考虑将每个人的时间拆开，分成开始时间和结束时间。将拆开后的时间以数组的形式存入小顶堆中，arr[0]是时间，arr[1]用来记录是第几个人，arr[2]用来记录是到达时间还是离开时间。以arr[0]为依据排序。
-- 同时，一个优先队列来记录当前时刻下空的椅子，这样总是可以得到最小的可以利用的椅子。
-- 用一个Map来记录当前时刻下已经被占用的椅子，key为人的序号，value是椅子序号。
-- 具体的流程是，按发生顺序依次遍历每一个时间。如果为到达时间，就从availableChairs中分配一把椅子，并存入occupiedChairs。并且检查是否是targetFriend；如果为结束时间，就将对应的occupiedChairs中的椅子放回avaliableChairs。
+- 這個問題可以考慮將每個人的時間拆開，分成開始時間和結束時間。將拆開後的時間以數組的形式存入小頂堆中，arr[0]是時間，arr[1]用來記錄是第幾個人，arr[2]用來記錄是到達時間還是離開時間。以arr[0]爲依據排序。
+- 同時，一個優先隊列來記錄當前時刻下空的椅子，這樣總是可以得到最小的可以利用的椅子。
+- 用一個Map來記錄當前時刻下已經被佔用的椅子，key爲人的序號，value是椅子序號。
+- 具體的流程是，按髮生順序依次遍曆每一個時間。如果爲到達時間，就從availableChairs中分配一把椅子，並存入occupiedChairs。並且檢查是否是targetFriend；如果爲結束時間，就將對應的occupiedChairs中的椅子放回avaliableChairs。
 
 ```java
 class Solution {
@@ -631,21 +631,21 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 设一共有n个人，events共插入2n次，每次插入的时间复杂度为`O(logn)`，复杂度为`O(2nlog2n) = O(nlogn)`。
-- 将所有椅子加入avaliableChairs，时间复杂度为`O(nlogn)`。
-- 依次遍历每个event，最坏情况下每次都要取一个新的椅子，从avaliableChairs取椅子复杂度为`O(logn)`, 插入occupiedChairs复杂度为(O(1))，总复杂度为`2n(O(logn) + O(1)) = O(nlogn)`。
+- 設一共有n個人，events共插入2n次，每次插入的時間複雜度爲`O(logn)`，複雜度爲`O(2nlog2n) = O(nlogn)`。
+- 將所有椅子加入avaliableChairs，時間複雜度爲`O(nlogn)`。
+- 依次遍曆每個event，最壞情況下每次都要取一個新的椅子，從avaliableChairs取椅子複雜度爲`O(logn)`, 插入occupiedChairs複雜度爲(O(1))，總複雜度爲`2n(O(logn) + O(1)) = O(nlogn)`。
 
-综上时间复杂度为`O(nlogn)`。
+綜上時間複雜度爲`O(nlogn)`。
 
-空间复杂度分析：
+空間複雜度分析：
 
 - events需要`O(2n)`
 - avaliableChair最多需要`O(n)`
 - occupiedChair最多需要`O(n)`
 
-综上空间复杂度为`O(n)`。
+綜上空間複雜度爲`O(n)`。
 
 
 
@@ -685,14 +685,14 @@ Output: [1,1]
 
 
 
-这个题的核心在于要保证选取的范围至少包含每个子数组中一个元素。考虑到这一点可以在遍历时使用一个容器，并始终保证容器中恰好有**k**个元素(k为子数组的数量)。同时在每次遍历时需要获得最大值和最小值来确定范围，所以理所应当使用一个最小堆。
+這個題的核心在於要保証選取的範圍至少包含每個子數組中一個元素。考慮到這一點可以在遍曆時使用一個容器，並始終保証容器中恰好有**k**個元素(k爲子數組的數量)。同時在每次遍曆時需要獲得最大值和最小值來確定範圍，所以理所應當使用一個最小堆。
 
-- 初始化：先把每个子数组的第一个元素放入堆中并记录最大值。
-- 遍历：一个while循环，每次取出一个元素（最小值），更新最小值，从而更新最小范围。如果最小范围变小就记录当前的状态。
-- 在遍历的最后把取出的最小元素的下一个元素（如果有）加入堆中，并更新最大值。
-- 循环结束时记录的状态即为答案。
+- 初始化：先把每個子數組的第一個元素放入堆中並記錄最大值。
+- 遍曆：一個while循環，每次取出一個元素（最小值），更新最小值，從而更新最小範圍。如果最小範圍變小就記錄當前的狀態。
+- 在遍曆的最後把取出的最小元素的下一個元素（如果有）加入堆中，並更新最大值。
+- 循環結束時記錄的狀態即爲答案。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -728,14 +728,14 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 设共有N个元素， 最坏情况下需要遍历所有元素。
-- 每个元素只进行一次进出堆的操作，堆中元素的数量始终为K，进入堆时维护最小堆的复杂度为`O(logK)`，出堆时的复杂度为`O(1)`， 维护堆的时间复杂度为`O(logK)`。共有N个元素，重复N次，时间复杂度为`O(N*(O(logK) + O(logK) + O(1))) = O(NlogK)`。
+- 設共有N個元素， 最壞情況下需要遍曆所有元素。
+- 每個元素隻進行一次進出堆的操作，堆中元素的數量始終爲K，進入堆時維護最小堆的複雜度爲`O(logK)`，出堆時的複雜度爲`O(1)`， 維護堆的時間複雜度爲`O(logK)`。共有N個元素，重複N次，時間複雜度爲`O(N*(O(logK) + O(logK) + O(1))) = O(NlogK)`。
 
-空间复杂度分析：
+空間複雜度分析：
 
-- 堆中最多有K个元素，K为nums的size。空间复杂度为`O(K)`。
+- 堆中最多有K個元素，K爲nums的size。空間複雜度爲`O(K)`。
 
 # [2406. Divide Intervals Into Minimum Number of Groups](https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/)
 
@@ -779,12 +779,12 @@ Explanation: None of the intervals overlap, so we can put all of them in one gro
 
 
 
-可以画一个时间轴，把intervals中的每个元素当成一个时间段画在时间轴上，重叠时间段最多的时间点对应的重叠的数量就是最小需要的分组数。
+可以畫一個時間軸，把intervals中的每個元素當成一個時間段畫在時間軸上，重疊時間段最多的時間點對應的重疊的數量就是最小需要的分組數。
 
-- 把每个时间段拆成开始时间和结束时间，放入最小堆。
-- 依次遍历堆中每一个元素，在遍历时，记录同时存在的时间段的最大数量即为答案。
+- 把每個時間段拆成開始時間和結束時間，放入最小堆。
+- 依次遍曆堆中每一個元素，在遍曆時，記錄同時存在的時間段的最大數量即爲答案。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -811,13 +811,13 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 设intervals数组共有N个元素，则共有2N个元素需要进栈和出栈各一次。时间复杂度为`O(2N*2*O(log2N)) = O(NlogN)`。
+- 設intervals數組共有N個元素，則共有2N個元素需要進棧和出棧各一次。時間複雜度爲`O(2N*2*O(log2N)) = O(NlogN)`。
 
-空间复杂度分析:
+空間複雜度分析:
 
-- 堆中最多存在2N个元素，空间复杂度为`O(2N) = O(N)`。
+- 堆中最多存在2N個元素，空間複雜度爲`O(2N) = O(N)`。
 
 
 
@@ -847,7 +847,7 @@ Output: 7
 Explanation: The maximum width ramp is achieved at (i, j) = (2, 9): nums[2] = 1 and nums[9] = 1.
 ```
 
- 
+
 
 **Constraints:**
 
@@ -856,7 +856,7 @@ Explanation: The maximum width ramp is achieved at (i, j) = (2, 9): nums[2] = 1 
 
 
 
-第一种方法是把所有元素按从小到大排序，再遍历一遍，遍历过程中维护最小下标并更新最长ramp的距离。
+第一種方法是把所有元素按從小到大排序，再遍曆一遍，遍曆過程中維護最小下標並更新最長ramp的距離。
 
 ```java
 class Solution {
@@ -879,17 +879,17 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 共有N个元素，排序时间复杂度为`O(NlogN)`。
-- 遍历一遍复杂度为`O(N)`。
-- 综合时间复杂度为`O(N + NlogN) = O(NlogN)`。
+- 共有N個元素，排序時間複雜度爲`O(NlogN)`。
+- 遍曆一遍複雜度爲`O(N)`。
+- 綜合時間複雜度爲`O(N + NlogN) = O(NlogN)`。
 
 
 
-第二种方法较为巧妙，采用一个单调栈（单调递减）记录nums中的元素，再倒着遍历，当栈顶元素不大于当前元素时出栈并更新最大值，直到栈顶元素大于当前元素或栈为空。
+第二種方法較爲巧妙，採用一個單調棧（單調遞減）記錄nums中的元素，再倒着遍曆，當棧頂元素不大於當前元素時出棧並更新最大值，直到棧頂元素大於當前元素或棧爲空。
 
-单调栈的作用在这里其实是一个按倒序排序的”set“， 效果是记录了每一个可能入栈的元素的最左边位置（如果有多个相同的元素，只记录最左边的那个），这样就满足了最大ramp的要求。
+單調棧的作用在這裡其實是一個按倒序排序的”set“， 效果是記錄了每一個可能入棧的元素的最左邊位置（如果有多個相同的元素，隻記錄最左邊的那個），這樣就滿足了最大ramp的要求。
 
 ```java
 class Solution {
@@ -911,11 +911,11 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 构建单调栈的过程需要遍历整个数组，复杂度为`O(N)`。
-- 第二次遍历最坏情况下需要遍历整个数组，复杂度为`O(N)`。
-- 综合复杂度为`O(N)`。
+- 構建單調棧的過程需要遍曆整個數組，複雜度爲`O(N)`。
+- 第二次遍曆最壞情況下需要遍曆整個數組，複雜度爲`O(N)`。
+- 綜合複雜度爲`O(N)`。
 
 
 
@@ -964,13 +964,13 @@ The subarray is `[3,4,1,2,6]`. 2 and 6 are both even.
 
 
 
-第一种方法：
+第一種方法：
 
-- 先遍历数组，如果找到都是偶数（或奇数）的pair，将较小的下标存入list
-- 对每一个query
-  - 进行二分查找
-  - 尝试在list中找到query[0] ～ query[1]范围内的值
-  - 找到结果为false，没找到为true
+- 先遍曆數組，如果找到都是偶數（或奇數）的pair，將較小的下標存入list
+- 對每一個query
+    - 進行二分查找
+    - 嚐試在list中找到query[0] ～ query[1]範圍內的值
+    - 找到結果爲false，沒找到爲true
 
 ```java
 class Solution {
@@ -1004,24 +1004,24 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 设共有N个元素，遍历一遍复杂度为`O(N)`
-- 设共有Q个query，对每一个query进行二分查找，复杂度为`O(QlogN)`
-- 综合复杂度为`O(N + QlogN)`
+- 設共有N個元素，遍曆一遍複雜度爲`O(N)`
+- 設共有Q個query，對每一個query進行二分查找，複雜度爲`O(QlogN)`
+- 綜合複雜度爲`O(N + QlogN)`
 
-空间复杂度分析：
+空間複雜度分析：
 
-- 需要`O(Q)`的空间来存储同奇偶对
+- 需要`O(Q)`的空間來存儲同奇偶對
 
 
 
-还有一种效率更高的解法：
+還有一種效率更高的解法：
 
-- 遍历数组，初始化prefixSum，`prefixSum[0] = 0`
-- 如果当前元素和上一个元素同为奇偶，`prefixSum[i] = prefixSum[i - 1] + 1`
+- 遍曆數組，初始化prefixSum，`prefixSum[0] = 0`
+- 如果當前元素和上一個元素同爲奇偶，`prefixSum[i] = prefixSum[i - 1] + 1`
 
-- 对每一个query，如果`query[1] != query[0]`说明范围内有相邻的奇数或偶数
+- 對每一個query，如果`query[1] != query[0]`説明範圍內有相鄰的奇數或偶數
 
 ```java
 class Solution {
@@ -1046,15 +1046,15 @@ class Solution {
 }
 ```
 
-时间复杂度分析：
+時間複雜度分析：
 
-- 遍历一遍数组`O(N)`
-- 遍历Query`O(Q)`
-- 综合复杂度`O(N + Q)`
+- 遍曆一遍數組`O(N)`
+- 遍曆Query`O(Q)`
+- 綜合複雜度`O(N + Q)`
 
-空间复杂度分析：
+空間複雜度分析：
 
-- prefixSum需要额外的`O(N)`空间
+- prefixSum需要額外的`O(N)`空間
 
 
 
@@ -1066,7 +1066,7 @@ You are given a **0-indexed** array `nums` and a **non-negative** integer `k`.
 
 In one operation, you can do the following:
 
-- Choose an index `i` that **hasn't been chosen before** from the range `[0, nums.length - 1]`.
+- Choose an index `i` that **hasn''t been chosen before** from the range `[0, nums.length - 1]`.
 - Replace `nums[i]` with any integer from the range `[nums[i] - k, nums[i] + k]`.
 
 The **beauty** of the array is the length of the longest subsequence consisting of equal elements.
@@ -1096,25 +1096,25 @@ It can be proven that 3 is the maximum possible length we can achieve.
 ```plain
 Input: nums = [1,1,1,1], k = 10
 Output: 4
-Explanation: In this example we don't have to apply any operations.
+Explanation: In this example we don''t have to apply any operations.
 The beauty of the array nums is 4 (whole array).
 ```
 
 
 
 - **Constraints:**
-  - `1 <= nums.length <= 10^5`
-  - `0 <= nums[i], k <= 10^5`
+    - `1 <= nums.length <= 10^5`
+    - `0 <= nums[i], k <= 10^5`
 
 
 
-这个题类似于扎气球问题[452. Minimum Number of Arrows to Burst Balloons](https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons/)， 本质上都是区间问题。但这个问题变成了如何用一支箭扎破最多的气球（区间）。
+這個題類似於紥氣球問題[452. Minimum Number of Arrows to Burst Balloons](https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons/)， 本質上都是區間問題。但這個問題變成了如何用一支箭紥破最多的氣球（區間）。
 
-虽然是子序列问题，但实际上最终的目的是找重叠数量最多的区间，所以排序是可以的。
+雖然是子序列問題，但實際上最終的目的是找重疊數量最多的區間，所以排序是可以的。
 
-思路是先对数组进行排序，再遍历每个区间的末尾端点， 用二分查找尝试找到第一个大于当前末尾端点的起始端点，记录此时的区间数量，每次遍历都进行更新，最终得到的就是最大值。
+思路是先對數組進行排序，再遍曆每個區間的末尾端點， 用二分查找嚐試找到第一個大於當前末尾端點的起始端點，記錄此時的區間數量，每次遍曆都進行更新，最終得到的就是最大值。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -1141,13 +1141,13 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
 - 排序`O(NlogN)`
-- 外层循环`O(N)`，内层循环是一个二分查找`O(logn)`,综合为`O(NlogN)`
-- 综合复杂度`O(NlogN)`
+- 外層循環`O(N)`，內層循環是一個二分查找`O(logn)`,綜合爲`O(NlogN)`
+- 綜合複雜度`O(NlogN)`
 
-空间复杂度：`O(1)`
+空間複雜度：`O(1)`
 
 
 
@@ -1200,15 +1200,15 @@ It can be shown that the maximum length achievable is 1.
 
 
 
-最简单直接的想法是对每个字母，从长度为1到长度为n遍历查找。但是时间复杂度过高。
+最簡單直接的想法是對每個字母，從長度爲1到長度爲n遍曆查找。但是時間複雜度過高。
 
-实际上观察一下最长子串的规律就不难发现只需要记录每个字母的最长子串和次长子串的长度和数量：
+實際上觀察一下最長子串的規律就不難髮現隻需要記錄每個字母的最長子串和次長子串的長度和數量：
 
-- 最长子串数量 >= 3 --- 最长子串长度
-- 最长子串数量 == 2 --- 最长子串长度 - 1
-- 最长子串数量 == 1
-  - 次长子串长度 == 最长子串长度 - 1 --- 最长子串长度 - 1
-  - 次长子串长度 < 最长子串长度 - 1 --- 最长子串长度 - 2
+- 最長子串數量 >= 3 --- 最長子串長度
+- 最長子串數量 == 2 --- 最長子串長度 - 1
+- 最長子串數量 == 1
+    - 次長子串長度 == 最長子串長度 - 1 --- 最長子串長度 - 1
+    - 次長子串長度 < 最長子串長度 - 1 --- 最長子串長度 - 2
 
 ```java
 class Solution {
@@ -1255,7 +1255,7 @@ class Solution {
     }
 
     private void update(int[][] map, String s, int start, int end) {
-        int cur = s.charAt(start) - 'a';
+        int cur = s.charAt(start) - ''a'';
         int len = end - start + 1;
         int l1 = map[cur][0], l1l = map[cur][1], l2 = map[cur][2], l2l = map[cur][3];
         if(l2 == 0 && l1 == 0) { // if no 2ndLongest and longest, update longest
@@ -1278,16 +1278,16 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
-- 遍历字符串`O(n)`
-- update方法复杂度为`O(1)`
-- 遍历map复杂度为`O(26 * 4) == O(1)`
-- 综合复杂度`O(N)`
+- 遍曆字符串`O(n)`
+- update方法複雜度爲`O(1)`
+- 遍曆map複雜度爲`O(26 * 4) == O(1)`
+- 綜合複雜度`O(N)`
 
-空间复杂度：
+空間複雜度：
 
-- Map需要额外的`O(26 * 4) == O(1)`
+- Map需要額外的`O(26 * 4) == O(1)`
 
 
 
@@ -1340,11 +1340,11 @@ The maximum sum subarray is `[1, 2, -3, 4]` which has length equal to 4 which is
 
 
 
-对于k=1的情况，可以使用kadane算法在线性的时间复杂度下得到最大子数组和。
+對於k=1的情況，可以使用kadane算法在線性的時間複雜度下得到最大子數組和。
 
-如果K大于1，可以将[i, i + k], [i + k, i + 2 * k]....每个子数组当成一个元素，这样就可以使用kadane算法了。
+如果K大於1，可以將[i, i + k], [i + k, i + 2 * k]....每個子數組當成一個元素，這樣就可以使用kadane算法了。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -1388,19 +1388,19 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
-- 计算前缀和`O(N)`
-- 外层循环复杂度为`O(K)`，内层循环复杂度为`O(N/K)`
-- Kadane算法复杂度为`O(N/K)`
-- 综合复杂度为`O(K * (N / K + N / K)) = O(N)`
+- 計算前綴和`O(N)`
+- 外層循環複雜度爲`O(K)`，內層循環複雜度爲`O(N/K)`
+- Kadane算法複雜度爲`O(N/K)`
+- 綜合複雜度爲`O(K * (N / K + N / K)) = O(N)`
 
-空间复杂度：
+空間複雜度：
 
-- prefix需要额外的`O(N)`
-- 对于临时tmp数组最大需要`O(N/K)`
+- prefix需要額外的`O(N)`
+- 對於臨時tmp數組最大需要`O(N/K)`
 
-- 综合空间复杂度为`O(N)`
+- 綜合空間複雜度爲`O(N)`
 
 
 
@@ -1470,9 +1470,9 @@ The locks cannot be broken in less than 5 minutes; thus, the answer is 5.
 - `1 <= K <= 10`
 - `1 <= strength[i] <= 10^6`
 
-这个题的方法是回溯，因为问题规模较小所以回溯也不会超时。
+這個題的方法是回溯，因爲問題規模較小所以回溯也不會超時。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -1499,15 +1499,15 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
-- 对于每一个lock在回溯时都有两种选择，即选或者不选，所以时间复杂度为`O(2^N)`
+- 對於每一個lock在回溯時都有兩種選擇，即選或者不選，所以時間複雜度爲`O(2^N)`
 
-空间复杂度：
+空間複雜度：
 
-- 在dfs中递归调用的栈空间取决于递归的深度，深度即位列表的长度，所以需要`O(N)`的栈空间。
-- 标记数组`visited`需要额外的`O(N)`。
-- 综合复杂度为`O(N)`
+- 在dfs中遞歸調用的棧空間取決於遞歸的深度，深度即位列表的長度，所以需要`O(N)`的棧空間。
+- 標記數組`visited`需要額外的`O(N)`。
+- 綜合複雜度爲`O(N)`
 
 
 
@@ -1560,11 +1560,11 @@ Total continuous subarrays = 3 + 2 + 1 = 6.
 - `1 <= nums.length <= 10^5`
 - `1 <= nums[i] <= 10^9`
 
-因为题目中说要找到某个范围内符合条件的子数组，所以自然而然的能想到应该用滑动窗口来解决这个问题。
+因爲題目中説要找到某個範圍內符合條件的子數組，所以自然而然的能想到應該用滑動窗口來解決這個問題。
 
-一般的滑动窗口问题采用滑动窗口 + 一个单调队列或堆就可以解决，但由于题目中要求范围内的数的差的绝对值小于等于2，所以只用一个是不能满足要求的，因为需要同时满足范围内的最大值和最小值都满足要求，所以需要两个单调队列或者一个最大堆和最小堆。
+一般的滑動窗口問題採用滑動窗口 + 一個單調隊列或堆就可以解決，但由於題目中要求範圍內的數的差的絶對值小於等於2，所以隻用一個是不能滿足要求的，因爲需要同時滿足範圍內的最大值和最小值都滿足要求，所以需要兩個單調隊列或者一個最大堆和最小堆。
 
-代码如下：
+代碼如下：
 
 ```java
 // heap版
@@ -1600,18 +1600,18 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
-- 每个元素最多进出堆一次，每次进出堆之后维护堆的复杂度为`O(logN)`，N个元素复杂度为`O(NlogN)`
+- 每個元素最多進出堆一次，每次進出堆之後維護堆的複雜度爲`O(logN)`，N個元素複雜度爲`O(NlogN)`
 
-空间复杂度：
+空間複雜度：
 
-- 每个堆最多存储N个元素，复杂度为`O(N)`
+- 每個堆最多存儲N個元素，複雜度爲`O(N)`
 
 
 
 ```java
-// 单调队列版
+// 單調隊列版
 class Solution {
 
     public long continuousSubarrays(int[] nums) {
@@ -1658,13 +1658,13 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
-- 每个元素最多进出队列各一次，复杂度为`O(N)`
+- 每個元素最多進出隊列各一次，複雜度爲`O(N)`
 
-空间复杂度：
+空間複雜度：
 
-- 每个队列最多存储N个元素，复杂度为`O(N)`
+- 每個隊列最多存儲N個元素，複雜度爲`O(N)`
 
 
 # [1734. Decode XORed Permutation](https://leetcode.com/problems/decode-xored-permutation/)
@@ -1704,9 +1704,9 @@ Output: [2,4,1,5,3]
 
 
 
-因为每一个encoded都是从两个相邻的数得来的，所以只要知道任何一个perm就可以知道所有其他的perm。
+因爲每一個encoded都是從兩個相鄰的數得來的，所以隻要知道任何一個perm就可以知道所有其他的perm。
 
-推导过程如下：
+推導過程如下：
 
 a0 ^ a1 ^ ... ^ an = 1 ^ 2 ^ ... ^ n
 
@@ -1714,7 +1714,7 @@ a1 ^ a2 ^ ... ^ an = e1 ^ e3 ^ ... ^ en - 1
 
 所以 a0 = e1 ^ e3 ^ ... ^ en - 1 ^ 1 ^ 2 ^ ... ^ n
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -1737,11 +1737,11 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
 - `O(n)`
 
-空间复杂度:
+空間複雜度:
 
 - `O(1)`
 
@@ -1761,7 +1761,7 @@ A **subsequence** of a string is a new string generated from the original string
 
 - For example, `"ace"` is a subsequence of `"abcde"`.
 
- 
+
 
 **Example 1:**
 
@@ -1794,7 +1794,7 @@ Explanation: The 4 palindromic subsequences of length 3 are:
 - "aba" (subsequence of "bbcbaba")
 ```
 
- 
+
 
 **Constraints:**
 
@@ -1803,13 +1803,13 @@ Explanation: The 4 palindromic subsequences of length 3 are:
 
 
 
-因为要求的只是长度为3的回文序列，所以只需要找到相同的两个字符然后统计中间包含的不同的字符就可以了。
+因爲要求的隻是長度爲3的回文序列，所以隻需要找到相同的兩個字符然後統計中間包含的不同的字符就可以了。
 
-比如abcba，对于a，我们只需要找到两个a的位置，然后统计夹在中间的字符数量。关键问题在于去重。
+比如abcba，對於a，我們隻需要找到兩個a的位置，然後統計夾在中間的字符數量。關鍵問題在於去重。
 
-类似前缀和，采用一个二维数组来记录每个位置所有字母出现的次数，这样就可以当确定某个区间的时候知道每个字符出现的频率。
+類似前綴和，採用一個二維數組來記錄每個位置所有字母出現的次數，這樣就可以當確定某個區間的時候知道每個字符出現的頻率。
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -1819,7 +1819,7 @@ class Solution {
         int[] first = new int[26]; // The smallest idx of each character
         Arrays.fill(first, -1);
         for(int i = 0; i < n; i ++) {
-            int cur = s.charAt(i) - 'a';
+            int cur = s.charAt(i) - ''a'';
             if(first[cur] == -1) {
                 first[cur] = i;
             }
@@ -1833,7 +1833,7 @@ class Solution {
         boolean[][] exists = new boolean[26][26];
         int res = 0;
         for(int i = 2; i < n; i ++) {
-            int cur = s.charAt(i) - 'a';
+            int cur = s.charAt(i) - ''a'';
             if(first[cur] == -1 || i - first[cur] < 2) {
                 continue;
             }
@@ -1849,11 +1849,11 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
 - ` O(n)`
 
-空间复杂度：
+空間複雜度：
 
 - `O(n)`
 
@@ -1865,11 +1865,11 @@ class Solution {
 
 You are given a string `s` of lowercase English letters and a 2D integer array `shifts` where `shifts[i] = [starti, endi, directioni]`. For every `i`, **shift** the characters in `s` from the index `starti` to the index `endi` (**inclusive**) forward if `directioni = 1`, or shift the characters backward if `directioni = 0`.
 
-Shifting a character **forward** means replacing it with the **next** letter in the alphabet (wrapping around so that `'z'` becomes `'a'`). Similarly, shifting a character **backward** means replacing it with the **previous** letter in the alphabet (wrapping around so that `'a'` becomes `'z'`).
+Shifting a character **forward** means replacing it with the **next** letter in the alphabet (wrapping around so that `''z''` becomes `''a''`). Similarly, shifting a character **backward** means replacing it with the **previous** letter in the alphabet (wrapping around so that `''a''` becomes `''z''`).
 
 Return *the final string after all such shifts to* `s` *are applied*.
 
- 
+
 
 **Example 1:**
 
@@ -1890,7 +1890,7 @@ Explanation: Firstly, shift the characters from index 0 to index 0 backward. Now
 Finally, shift the characters from index 1 to index 1 forward. Now s = "catz".
 ```
 
- 
+
 
 **Constraints:**
 
@@ -1902,13 +1902,13 @@ Finally, shift the characters from index 1 to index 1 forward. Now s = "catz".
 
 
 
-如果直接模拟，问题的规模是5 * 10 ^ 4，最坏复杂度是`O(n^2)`，绝对会超时。
+如果直接模擬，問題的規模是5 * 10 ^ 4，最壞複雜度是`O(n^2)`，絶對會超時。
 
-可以用一个数组统计每个位置需要移动的次数，类似前缀和，这样复杂度就降到了线性。
+可以用一個數組統計每個位置需要移動的次數，類似前綴和，這樣複雜度就降到了線性。
 
 
 
-代码如下：
+代碼如下：
 
 ```java
 class Solution {
@@ -1929,18 +1929,18 @@ class Solution {
         }
         char[] str = s.toCharArray();
         for(int i = 0; i < n; i ++) {
-            str[i] = (char) (((str[i] - 'a' + map[i]) % 26 + 26) % 26 + 'a');
+            str[i] = (char) (((str[i] - ''a'' + map[i]) % 26 + 26) % 26 + ''a'');
         }
         return new String(str);
     }
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
 - `O(n)`
 
-空间复杂度：
+空間複雜度：
 
 - `O(n)`
 
@@ -1964,7 +1964,7 @@ The passes allow that many days of consecutive travel.
 
 Return *the minimum number of dollars you need to travel every day in the given list of days*.
 
- 
+
 
 **Example 1:**
 
@@ -1989,7 +1989,7 @@ On day 31, you bought a 1-day pass for costs[0] = $2 which covered day 31.
 In total, you spent $17 and covered all the days of your travel.
 ```
 
- 
+
 
 **Constraints:**
 
@@ -2001,7 +2001,7 @@ In total, you spent $17 and covered all the days of your travel.
 
 
 
-线性规划
+線性規劃
 
 ```java
 class Solution {
@@ -2028,11 +2028,11 @@ class Solution {
 }
 ```
 
-时间复杂度：
+時間複雜度：
 
 - `O(n)`
 
-空间复杂度：
+空間複雜度：
 
 - `O(n)`
 

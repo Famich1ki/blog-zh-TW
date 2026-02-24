@@ -1,5 +1,5 @@
 ---
-title: hearthstone database项目总结
+title: hearthstone database項目總結
 date: 2024-08-27 14:19:50
 tags:
   - Spring Boot
@@ -7,33 +7,33 @@ tags:
   - MyBatis
   - MySQL
 categories:
-  - 实战项目
+  - 實戰項目
 cover: https://pics.findfuns.org/hearthstone.jpg
 ---
 
 
 
-## 写在前面
+## 冩在前麵
 
-这是一个前后端分离的全栈开发项目。后端采用的技术栈是SpringBoot + MyBatis + MySQL。前端采用的是vue3框架。在项目完成后部署在了AWS云服务上，OS采用的是ubuntu并使用nginx进行了反向代理。
+這是一個前後端分離的全棧開髮項目。後端採用的技術棧是SpringBoot + MyBatis + MySQL。前端採用的是vue3框架。在項目完成後部署在了AWS雲服務上，OS採用的是ubuntu並使用nginx進行了反向代理。
 
-整个项目从收集数据集，清洗数据，整合数据库开始，一直到最终部署在服务器上历时大约10天。其实前后端开发占用时间并不是很长，也没有用到很复杂的技术，主要的时间消耗在于数据库的清洗和整合工作。元数据来自一个第三方的hearthstone网站提供的API(在此非常感谢)，但在获取元数据之后发现并不能立刻投入使用，因为存在很多脏数据和一些冗余数据，并且一些数据还存在格式上的不匹配。把这些问题处理完毕耗费了大约3-4天的时间。
+整個項目從收集數據集，清洗數據，整合數據庫開始，一直到最終部署在服務器上曆時大約10天。其實前後端開髮佔用時間並不是很長，也沒有用到很複雜的技術，主要的時間消耗在於數據庫的清洗和整合工作。元數據來自一個第三方的hearthstone網站提供的API(在此非常感謝)，但在獲取元數據之後髮現並不能立刻投入使用，因爲存在很多髒數據和一些冗餘數據，並且一些數據還存在格式上的不匹配。把這些問題處理完畢耗費了大約3-4天的時間。
 
-本文章用于总结和回顾整个项目开发过程中遇到的问题和主要的工作量。
+本文章用於總結和回顧整個項目開髮過程中遇到的問題和主要的工作量。
 
-先贴一张IDEA的项目结构图
+先貼一張IDEA的項目結構圖
 
 <img src="https://pics.findfuns.org/backend-overview.png" alt="back" style="zoom:33%;" />
 
-整个后端项目采用的是经典的SpringMVC框架,即Controller-Service-Mapper三层。同时也设计了Pojo类以及自定义`Typehandler`，自定义`TypeHandler`用于处理数据库查询结果和Java实例之间的映射（当映射关系没有默认处理时需要设计自定义`TypeHandler`）。
+整個後端項目採用的是經典的SpringMVC框架,即Controller-Service-Mapper三層。同時也設計了Pojo類以及自定義`Typehandler`，自定義`TypeHandler`用於處理數據庫查詢結果和Java實例之間的映射（當映射關繫沒有默認處理時需要設計自定義`TypeHandler`）。
 
 ### POJO
 
-先来讲一讲pojo类。为了契合卡牌的不同类型和各种属性，pojo类进行了详细的设计，包括继承关系，枚举类，数据类型等。
+先來講一講pojo類。爲了契合卡牌的不同類型和各種屬性，pojo類進行了詳細的設計，包括繼承關繫，枚舉類，數據類型等。
 
 <img src="https://pics.findfuns.org/pojo-hierarchical-diagram.png" alt="z" style="zoom:33%;" />
 
-`Card`类是所有卡牌的基类，所有类型的卡牌都是`Card`类的子类。`Card`类也包含了所有卡牌都有的、最基本的几个属性。
+`Card`類是所有卡牌的基類，所有類型的卡牌都是`Card`類的子類。`Card`類也包含了所有卡牌都有的、最基本的幾個屬性。
 
 ```java
 package com.zzb.hearthstoneDB.pojo;
@@ -43,23 +43,23 @@ package com.zzb.hearthstoneDB.pojo;
 @NoArgsConstructor
 public class Card {
 
-    private String id; // 每张卡牌的唯一id
+    private String id; // 每張卡牌的唯一id
 
-    private String name; // 卡牌名称
+    private String name; // 卡牌名稱
 
-    private Integer cost; // 卡牌费用
+    private Integer cost; // 卡牌費用
 
     private CardClass cardClass; // MAGE, DRUID, PRIEST ...
 
-    private Integer cardSet; // 一个整数，对应着一个版本
+    private Integer cardSet; // 一個整數，對應着一個版本
 
     private String rule; // 卡牌描述
 }
 ```
 
-Card共有6个子类： `Spell`， `Hero`， `HeroPower`， `Location`， `Weapon`， `Minion`。分别对应6种不同的卡牌类型： 法术， 英雄牌， 英雄技能， 地标， 武器， 随从。
+Card共有6個子類： `Spell`， `Hero`， `HeroPower`， `Location`， `Weapon`， `Minion`。分別對應6種不同的卡牌類型： 法術， 英雄牌， 英雄技能， 地標， 武器， 隨從。
 
-例如`Minion`类的设计
+例如`Minion`類的設計
 
 ```java
 package com.zzb.hearthstoneDB.pojo;
@@ -77,40 +77,40 @@ public class Minion extends Card{
         this.flavor = flavor;
     }
 
-    private Integer attack; // 攻击力
+    private Integer attack; // 攻擊力
 
     private Integer health; // 生命值
 
     private Rarity rarity; // 稀有度
 
-    private Race race; // 种族
+    private Race race; // 種族
 
-    private String flavor; // 简介
+    private String flavor; // 簡介
 }
 ```
 
-对于几个属性值，`Rarity`， `Race`，`CardClass`，`SpellSchool`，他们都有一些固定的值的集合，非常适合采用枚举类来表示。
+對於幾個屬性值，`Rarity`， `Race`，`CardClass`，`SpellSchool`，他們都有一些固定的值的集合，非常適合採用枚舉類來表示。
 
-例如`SpellSchool`类的设计
+例如`SpellSchool`類的設計
 
 ```java
 package com.zzb.hearthstoneDB.pojo;
 
 public enum SpellSchool {
 
-    ARCANE, // 奥术
+    ARCANE, // 奧術
     FIRE, // 火焰
     FROST, // 冰霜
     NATURE, // 自然
     SHADOW, // 暗影
-    HOLY, // 神圣
+    HOLY, // 神聖
     FEL, // 邪能
 }
 ```
 
 ### Controller
 
-Controller层主要的逻辑是路由规划并从URL中获取查询参数并将参数传递给Service层。
+Controller層主要的邏輯是路由規劃並從URL中獲取查詢參數並將參數傳遞給Service層。
 
 ```java
 package com.zzb.hearthstoneDB.controller;
@@ -128,16 +128,16 @@ public class CardController {
     }
 ```
 
-`@RestController`是一个复合注解，包括了`@Controller`和`@ResponseBody`这两个注解。`@Controller`注解将类标记为SpringMVC的Controller，`@ResponseBody`注解指示方法的返回值直接写入响应体而不是视图，并以JSON的格式返回。
+`@RestController`是一個複合注解，包括了`@Controller`和`@ResponseBody`這兩個注解。`@Controller`注解將類標記爲SpringMVC的Controller，`@ResponseBody`注解指示方法的返回值直接冩入響應體而不是視圖，並以JSON的格式返回。
 
-同时使用`@Autowired`注解自动注入Service组件。
+同時使用`@Autowired`注解自動注入Service組件。
 
-使用`@RequestMapping`注解规定根路由。注意，**根路由的开头是不带’/‘的**，这与每个方法上的子路由是不同的。
+使用`@RequestMapping`注解規定根路由。注意，**根路由的開頭是不帶’/‘的**，這與每個方法上的子路由是不同的。
 
-Controller中的方法的设计大致相同，如下
+Controller中的方法的設計大緻相同，如下
 
 ```java
-@GetMapping("/minion") // 字路由的开头带‘/’
+@GetMapping("/minion") // 字路由的開頭帶‘/’
 public List<Card> selectMinions(
   @RequestParam(value = "name", required = false) String name, 
   @RequestParam(value = "cost", required = false) Integer cost,
@@ -153,25 +153,25 @@ public List<Card> selectMinions(
 }
 ```
 
-`@GetMapping`规定这个方法用于处理一个get请求并说明了对应的路由。
+`@GetMapping`規定這個方法用於處理一個get請求並説明了對應的路由。
 
-`@CrossOrigin`允许客户端进行跨域请求，可以使用origins参数规定允许访问的源，methods参数可以规定允许请求的类型（get，post，put）
+`@CrossOrigin`允許客戶端進行跨域請求，可以使用origins參數規定允許訪問的源，methods參數可以規定允許請求的類型（get，post，put）
 
-`@RequestParam`用于捕获get请求的查询字符串并解析其中的参数。如
+`@RequestParam`用於捕獲get請求的查詢字符串並解析其中的參數。如
 
 ```html
 localhost:8080/minion?cost=9&rarity=RARE
 ```
 
-required参数默认为true，即客户端必须提供对应的参数否则会导致请求失败（HTTP 400），同时Spring会抛出`MissingServletRequestParameterException`异常。设置为false之后对应参数可以为空。
+required參數默認爲true，即客戶端必須提供對應的參數否則會導緻請求失敗（HTTP 400），同時Spring會拋出`MissingServletRequestParameterException`異常。設置爲false之後對應參數可以爲空。
 
-**Tips**: 
+**Tips**:
 
-`@RequestParam`注解可以配合required和defaultValue来使用，defaultValue可以提供一个默认值，当来自客户端的请求中未包含参数时，对应参数会被设置为默认值。
+`@RequestParam`注解可以配合required和defaultValue來使用，defaultValue可以提供一個默認值，當來自客戶端的請求中未包含參數時，對應參數會被設置爲默認值。
 
 ### Service
 
-service层的主要业务逻辑是将controller解析的请求参数封装到对应的Pojo类中，并将Pojo类传到Mapper的查询方法中进行查询。
+service層的主要業務邏輯是將controller解析的請求參數封裝到對應的Pojo類中，並將Pojo類傳到Mapper的查詢方法中進行查詢。
 
 ```java
 package com.zzb.hearthstoneDB.service;
@@ -187,9 +187,9 @@ public class CardService {
     }
 ```
 
-`@Service`注解将类标记为SpringMVC的service组件。
+`@Service`注解將類標記爲SpringMVC的service組件。
 
-service的方法大致相同，如下
+service的方法大緻相同，如下
 
 ```java
 public List<Card> selectMinions(String name, Integer cost, Integer attack, 
@@ -207,13 +207,13 @@ public List<Card> selectMinions(String name, Integer cost, Integer attack,
 
 ### Mapper
 
-在Model层采用的是ORM框架中的MyBatis。在MyBatis中的Mapper是映射SQL查询的接口。在查询接口中，可以选择直接用注解的形式（如`@Select("SELECT * FROM STUDENT")`等）来自定义查询的sql语句，但这一般仅适合简单的查询语句，当涉及多表查询，自定义结果集映射等时还是需要编辑XML文件的。
+在Model層採用的是ORM框架中的MyBatis。在MyBatis中的Mapper是映射SQL查詢的接口。在查詢接口中，可以選擇直接用注解的形式（如`@Select("SELECT * FROM STUDENT")`等）來自定義查詢的sql語句，但這一般僅適合簡單的查詢語句，當涉及多表查詢，自定義結果集映射等時還是需要編輯XML文件的。
 
-在项目中采用的是XML文件配置MyBatis，本文也重点讲述这种配置方法。
+在項目中採用的是XML文件配置MyBatis，本文也重點講述這種配置方法。
 
-XML配置文件一般放置在resources文件夹中，注意，对于MyBatis的XML配置文件，**在resources中的结构必须与main文件夹中完全相同。**比如，mapper文件的结构是com.my.project.mapper.CardMapper，那么XML配置的结构也必须是com.my.project.mapper.CardMapper.xml，否则配置无法生效！
+XML配置文件一般放置在resources文件夾中，注意，對於MyBatis的XML配置文件，**在resources中的結構必須與main文件夾中完全相同。**比如，mapper文件的結構是com.my.project.mapper.CardMapper，那麼XML配置的結構也必須是com.my.project.mapper.CardMapper.xml，否則配置無法生效！
 
-`@Param`注解给查询参数设置了别名，这个别名可以用与xml中的动态sql。
+`@Param`注解給查詢參數設置了別名，這個別名可以用與xml中的動態sql。
 
 ```java
 package com.zzb.hearthstoneDB.mapper;
@@ -241,9 +241,9 @@ public interface CardMapper {
 }
 ```
 
-下面讲解一下XML配置文件的写法和结构
+下麵講解一下XML配置文件的冩法和結構
 
-首先是xml的标准配置
+首先是xml的標準配置
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -252,23 +252,23 @@ public interface CardMapper {
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 ```
 
-可以算是xml文件的头文件，必须携带。
+可以算是xml文件的頭文件，必須攜帶。
 
-接下来是mapper的配置部分。
+接下來是mapper的配置部分。
 
-最大的标签是`<mapper>`,如
+最大的標籤是`<mapper>`,如
 
 ```xml
 <mapper namespace="com.zzb.hearthstoneDB.mapper.CardMapper"></mapper>
 ```
 
-有若干个二级标签, 如resultMap，select等。
+有若幹個二級標籤, 如resultMap，select等。
 
-resultMap用来定义数据库entity和Java中Pojo的映射关系。
+resultMap用來定義數據庫entity和Java中Pojo的映射關繫。
 
-id是每一个resultMap的唯一标识符，在后面的实际sql语句编写时如果需要用到resultMap来处理映射，需要用resultMap的id来指明使用的是哪一个resultMap。
+id是每一個resultMap的唯一標識符，在後麵的實際sql語句編冩時如果需要用到resultMap來處理映射，需要用resultMap的id來指明使用的是哪一個resultMap。
 
-type是映射到的Pojo类的全类名。
+type是映射到的Pojo類的全類名。
 
 ```xml
 <resultMap id="cardResultMap" type="com.zzb.hearthstoneDB.pojo.Card">
@@ -281,19 +281,19 @@ type是映射到的Pojo类的全类名。
 </resultMap>
 ```
 
-在resultMap中每一个result标签对应着一个属性的映射。property是pojo中的成员变量名，column是数据库表的列名。
+在resultMap中每一個result標籤對應着一個屬性的映射。property是pojo中的成員變量名，column是數據庫表的列名。
 
-如果需要使用typeHandler，需要使用typeHandler属性并指明使用的typeHandler的全类名。
+如果需要使用typeHandler，需要使用typeHandler屬性並指明使用的typeHandler的全類名。
 
-`<select>`是xml中的动态sql查询标签，类似的还有`<update>`，`<delete>`等。
+`<select>`是xml中的動態sql查詢標籤，類似的還有`<update>`，`<delete>`等。
 
-id对应Mapper接口的方法名。
+id對應Mapper接口的方法名。
 
 resultMap表示使用的映射集。
 
-在动态查询中，可以使用`<where>`和`if`标签，非常的智能，可以自动处理AND的连接。
+在動態查詢中，可以使用`<where>`和`if`標籤，非常的智能，可以自動處理AND的連接。
 
-为了防止SQL注入攻击，建议使用`#{}`而不是`${}`。前者会经过绑定和预处理，后者会直接拼接进入sql。
+爲了防止SQL注入攻擊，建議使用`#{}`而不是`${}`。前者會經過綁定和預處理，後者會直接拼接進入sql。
 
 ```xml
 <select id="selectMinion" resultMap="minionResultMap">
@@ -302,7 +302,7 @@ resultMap表示使用的映射集。
     <where>
             AND collectible = 1
         <if test="minion.name != null">
-            AND name LIKE CONCAT('%', #{minion.name}, '%')
+            AND name LIKE CONCAT(''%'', #{minion.name}, ''%'')
         </if>
         <if test="minion.cost != null and minion.cost &lt; 10">
             AND cost = #{minion.cost}
@@ -317,7 +317,7 @@ resultMap表示使用的映射集。
             AND card_set_id.id = #{minion.cardSet}
         </if>
         <if test="minion.rule != null">
-            AND rule LIKE CONCAT('%', #{minion.rule}, '%')  <!--模糊查询-->
+            AND rule LIKE CONCAT(''%'', #{minion.rule}, ''%'')  <!--模糊查詢-->
         </if>
         <if test="minion.attack != null">
             AND attack = #{minion.attack}
@@ -335,11 +335,10 @@ resultMap表示使用的映射集。
 </select>
 ```
 
-由于在xml中'<'和'>'有特殊意义，所以在sql中如果需要使用小于号和大于号等，需要使用转义字符，如`&lt;`（less than）。
+由於在xml中''<''和''>''有特殊意義，所以在sql中如果需要使用小於號和大於號等，需要使用轉義字符，如`&lt;`（less than）。
 
-### 数据库设计
+### 數據庫設計
 
 <img src="https://pics.findfuns.org/hearthstone-database-diagram.png" style="zoom:33%;" />
 
-上面是数据库的表设计。共有6张表，分别对应6种不同的卡牌类型。所有表的主键都是`id`。
-
+上麵是數據庫的表設計。共有6張表，分別對應6種不同的卡牌類型。所有表的主鍵都是`id`。

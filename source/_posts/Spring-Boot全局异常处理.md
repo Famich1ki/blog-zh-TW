@@ -1,24 +1,24 @@
 ---
-title: Spring Boot全局异常处理
+title: Spring Boot全局異常處理
 date: 2024-09-16 18:01:40
 tags: 
   - Spring Boot
-  - 异常处理
+  - 異常處理
 categories:
-  - [Spring Boot, 异常处理]
+  - [Spring Boot, 異常處理]
 cover: https://pics.findfuns.org/exception-handling.png   
 ---
 # 前言
 
-当我们用Spring Boot构建工程的时候，在处理各种复杂的业务需求时往往会涉及到各种各样的异常，比如在进行文件的IO操作时会遇到`IOException`，`FileNotFoundException`，在编写SQL语句或使用JDBC时会遇到`SQLException`，在编写涉及反射相关的代码时会遇到`ClassCastException`。除此之外还有许多常见的异常如空指针异常`NullPointerException`，数组下标越界异常`ArrayIndexOutOfBoundsException`，在使用迭代器遍历集合时修改元素产生的异常`ConcurrentModificationException`，算数异常（如除0）`ArithmeticException`等等。
+當我們用Spring Boot構建工程的時候，在處理各種複雜的業務需求時往往會涉及到各種各樣的異常，比如在進行文件的IO操作時會遇到`IOException`，`FileNotFoundException`，在編冩SQL語句或使用JDBC時會遇到`SQLException`，在編冩涉及反射相關的代碼時會遇到`ClassCastException`。除此之外還有許多常見的異常如空指針異常`NullPointerException`，數組下標越界異常`ArrayIndexOutOfBoundsException`，在使用迭代器遍曆集合時修改元素産生的異常`ConcurrentModificationException`，算數異常（如除0）`ArithmeticException`等等。
 
-在处理这些异常时无非就是两种选择，最直接最省事的选择是直接使用`throws`关键字抛出异常，让上层的方法处理异常。另外一种方法就是用try-catch代码块捕捉异常。这两种方法的缺点都很明显，当工程量变大需要处理异常的地方逐渐变多时，如果一个一个的处理异常会显得非常低效，而且也不方便进行统一管理。
+在處理這些異常時無非就是兩種選擇，最直接最省事的選擇是直接使用`throws`關鍵字拋出異常，讓上層的方法處理異常。另外一種方法就是用try-catch代碼塊捕捉異常。這兩種方法的缺點都很明顯，當工程量變大需要處理異常的地方逐漸變多時，如果一個一個的處理異常會顯得非常低效，而且也不方便進行統一管理。
 
-那么是否存在一种可以全局管理异常的方法呢。
+那麼是否存在一種可以全局管理異常的方法呢。
 
 ### `RestControllerAdvice`和`ExceptionHandler`
 
-被`RestControllerAdvice`标记的类可以用于处理全局异常。同时将`ExceptionHandler`标记在方法上可以处理对应的异常。
+被`RestControllerAdvice`標記的類可以用於處理全局異常。同時將`ExceptionHandler`標記在方法上可以處理對應的異常。
 
 ```java
 @RestControllerAdvice
@@ -33,9 +33,9 @@ public class GlobalExceptionHandler {
 }
 ```
 
-ExceptionHandler接受Class[]类型的参数，代表能处理的异常的类型。
+ExceptionHandler接受Class[]類型的參數，代表能處理的異常的類型。
 
-定义基本的异常接口和枚举类
+定義基本的異常接口和枚舉類
 
 ```java
 public interface BaseException {
@@ -72,7 +72,7 @@ public enum ExceptionEnum implements BaseException{
 }
 ```
 
-定义一个Response类用于统一返回数据的格式
+定義一個Response類用於統一返回數據的格式
 
 ```java
 @Data
@@ -106,7 +106,7 @@ public class Response {
 }
 ```
 
-测试一下，在controller中故意制造一个算数异常
+測試一下，在controller中故意製造一個算數異常
 
 ```java
 @PutMapping("/add")
@@ -116,10 +116,10 @@ public String addPerson(@RequestBody Person person) {
 }
 ```
 
-在postman中发送请求
+在postman中髮送請求
 
 <img src="https://pics.findfuns.org/globalExceptionHandler.png" style="zoom:33%;" />
 
-可以看到返回的msg是"/ by zero"正对应着算数异常，同时code是先前设置好的500。
+可以看到返回的msg是"/ by zero"正對應着算數異常，同時code是先前設置好的500。
 
-这样一来我们就能通过设置全局异常处理的方式来统筹管理整个项目中的所有异常，无需再一个一个关注具体的异常处理，可以将注意力全身心放在业务逻辑上，非常方便。
+這樣一來我們就能通過設置全局異常處理的方式來統籌管理整個項目中的所有異常，無需再一個一個關注具體的異常處理，可以將注意力全身心放在業務邏輯上，非常方便。

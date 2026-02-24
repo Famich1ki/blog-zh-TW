@@ -1,7 +1,7 @@
 ---
-title: Java集合原理和底层数据结构总结
+title: Java集合原理和底層數據結構總結
 date: 2024-08-25 23:05:58
-tags: 
+tags:
   - Java
   - Java Collections
 categories:
@@ -9,33 +9,33 @@ categories:
 cover: https://pics.findfuns.org/java-collections.png
 ---
 
-# 先放一张集合的层级图
+# 先放一張集合的層級圖
 
 <img src="https://pics.findfuns.org/Collections-hierarchy.png" alt="collectionsHierarchy" style="zoom:50%;" />
 
 # List
 
-List的特点是顺序性，可重复性。
+List的特點是順序性，可重複性。
 
 ## `ArrayList`
 
-允许任何元素包括`null`。和`Vector`相比**不是线程安全的**。在必要时可以用`Collections.synchronizedList()`来将`ArrayList`转换成线程安全的List
+允許任何元素包括`null`。和`Vector`相比**不是線程安全的**。在必要時可以用`Collections.synchronizedList()`來將`ArrayList`轉換成線程安全的List
 
 ```java
 List list = Collections.synchronizedList(new ArrayList());
 ```
 
-底层维护了一个`Object`数组用来存储元素。
+底層維護了一個`Object`數組用來存儲元素。
 
 ```Java
 transient Object[] elementData;
 ```
 
-定义了一个`grow()`方法，当调用一系列重载的`add`方法时，会根据是否到达`capacity`来调用`grow()`以保证`ArrayList`的容量满足需求。
+定義了一個`grow()`方法，當調用一繫列重載的`add`方法時，會根據是否到達`capacity`來調用`grow()`以保証`ArrayList`的容量滿足需求。
 
 ## `PriorityQueue`
 
-PriorityQueue通过维护了一个小顶堆来保证首元素是所有元素中最小的元素，最小取决于元素实现的`Comparator`或者`Comparable`。它也提供了一个构造函数以便传入自定义的`Comparator`来决定排序的顺序。
+PriorityQueue通過維護了一個小頂堆來保証首元素是所有元素中最小的元素，最小取決於元素實現的`Comparator`或者`Comparable`。它也提供了一個構造函數以便傳入自定義的`Comparator`來決定排序的順序。
 
 ```java
 public PriorityQueue(Comparator<? super E> comparator)
@@ -51,31 +51,31 @@ private final Comparator<? super E> comparator;
 transient int modCount; 
 ```
 
-这里的modCount是一个用来记录restructure（添加，删除或改变集合中元素的排列顺序）次数的变量，当创建了iterator之后如果modCount发生了变化就会抛出`ConcurrentModificationException`异常。
+這裡的modCount是一個用來記錄restructure（添加，刪除或改變集合中元素的排列順序）次數的變量，當創建了iterator之後如果modCount髮生了變化就會拋出`ConcurrentModificationException`異常。
 
-`ProrityQueue`不允许插入`null`值。
+`ProrityQueue`不允許插入`null`值。
 
-插入，删除头部元素操作的时间复杂度为`O(logn)`。查找和删除指定元素的时间复杂度为`O(n)`。
+插入，刪除頭部元素操作的時間複雜度爲`O(logn)`。查找和刪除指定元素的時間複雜度爲`O(n)`。
 
 插入元素的操作
 
-- 超出`capacity`，需要无论在什么位置插入，都需要`O(n)`将原数组复制到更大的数组中，再用`O(1)`进行插入操作，所以时间复杂度为`O(n)`。
-- 没有超出`capacity`
-  - 在尾部插入`O(1)`
-  - 在其他位置`O(n)`
+- 超出`capacity`，需要無論在什麼位置插入，都需要`O(n)`將原數組複製到更大的數組中，再用`O(1)`進行插入操作，所以時間複雜度爲`O(n)`。
+- 沒有超出`capacity`
+    - 在尾部插入`O(1)`
+    - 在其他位置`O(n)`
 
-删除元素的操作
+刪除元素的操作
 
-- 删除尾部元素`O(1)`
-- 删除其他位置`O(n)`
+- 刪除尾部元素`O(1)`
+- 刪除其他位置`O(n)`
 
 ### `RandomAccess`
 
-`ArrayList`实现了`RandomAccess`接口，表示可以随机访问，即可以根据下标访问元素，因为底层是一个数组，数组天生具备随机访问的能力。
+`ArrayList`實現了`RandomAccess`接口，表示可以隨機訪問，即可以根據下標訪問元素，因爲底層是一個數組，數組天生具備隨機訪問的能力。
 
 ## `LinkedList`
 
-`LinkedList`在底层维护了一个**双向链表**来存储数据
+`LinkedList`在底層維護了一個**雙向鏈表**來存儲數據
 
 ```java
 transient int size = 0;
@@ -99,15 +99,15 @@ private static class Node<E> {
 }
 ```
 
-每一个`LinkedList`包含两个指针分别指向链表的头节点和末节点。
+每一個`LinkedList`包含兩個指針分別指向鏈表的頭節點和末節點。
 
 `RandomAccess`
 
-显然，`LinkedList`并不支持随机访问，因为链表在查找元素时需要线性遍历整个链表，时间复杂度为`O(n)`，不能做到像数组那样`O(1)`的直接访问。
+顯然，`LinkedList`並不支持隨機訪問，因爲鏈表在查找元素時需要線性遍曆整個鏈表，時間複雜度爲`O(n)`，不能做到像數組那樣`O(1)`的直接訪問。
 
 ### Methods
 
-对于插入和删除操作主要有两个系列
+對於插入和刪除操作主要有兩個繫列
 
 1. add and remove
 
@@ -119,9 +119,9 @@ private static class Node<E> {
 - `offerFirst()`, `offerLast()`
 - `pollFirst()`, `pollLast()`
 
-主要的区别的在于1在remove的时候如果list为空会抛出异常而2的poll只会返回`false`。
+主要的區別的在於1在remove的時候如果list爲空會拋出異常而2的poll隻會返回`false`。
 
-其实当调用2系列方法的时候实际上也会调用1的对应方法，如
+其實當調用2繫列方法的時候實際上也會調用1的對應方法，如
 
 ```java
 public boolean offerLast(E e) {
@@ -130,19 +130,19 @@ public boolean offerLast(E e) {
 }
 ```
 
-在链表头和尾插入或删除的时间复杂度为`O(1)`。在其他位置插入或删除的时间复杂度均为`O(n)`。
+在鏈表頭和尾插入或刪除的時間複雜度爲`O(1)`。在其他位置插入或刪除的時間複雜度均爲`O(n)`。
 
 # Queue
 
-队列的最大特点是实现了FIFO（First In First Out）的数据结构，所以很适合在有顺序需求的场景下应用。
+隊列的最大特點是實現了FIFO（First In First Out）的數據結構，所以很適合在有順序需求的場景下應用。
 
-在`Queue`接口下还有一个子接口`Deque`，在`Queue`的基础上实现了双端队列的逻辑，同时可以用来模拟`Stack`。
+在`Queue`接口下還有一個子接口`Deque`，在`Queue`的基礎上實現了雙端隊列的邏輯，同時可以用來模擬`Stack`。
 
-可以用`ArrayDeque`或者`LinkedList`来实现`Queue`接口，但相比之下ArrayDeque不允许null值。值得一提的是当用来模拟`Stack`的时候使用`ArrayDeque`比`Stack`效率高，同时在用作队列时效率比`LinkedList`高。
+可以用`ArrayDeque`或者`LinkedList`來實現`Queue`接口，但相比之下ArrayDeque不允許null值。值得一提的是當用來模擬`Stack`的時候使用`ArrayDeque`比`Stack`效率高，同時在用作隊列時效率比`LinkedList`高。
 
 ## `ArrayDeque`
 
-ArrayDeque的底层维护着一个**循环数组**，这就是为什么他可以被用作双端队列。除了`remove`一系列的方法和`contains`，其他的方法都保持在常数级别的复杂度。
+ArrayDeque的底層維護着一個**循環數組**，這就是爲什麼他可以被用作雙端隊列。除了`remove`一繫列的方法和`contains`，其他的方法都保持在常數級別的複雜度。
 
 ```java
 transient Object[] elements;
@@ -152,23 +152,23 @@ transient int head;
 transient int tail;
 ```
 
-在执行添加操作的时候，只需要移动头指针或者尾指针即可。
+在執行添加操作的時候，隻需要移動頭指針或者尾指針即可。
 
 
 
 # Set
 
-Set主要应用场景是去重。
+Set主要應用場景是去重。
 
 ## `HashSet`
 
-`HashSet`的底层其实维护着一个`HashMap`，只不过插入`HashSet`中的所有元素的Value全部都被设置为了一个`Object`
+`HashSet`的底層其實維護着一個`HashMap`，隻不過插入`HashSet`中的所有元素的Value全部都被設置爲了一個`Object`
 
 ```java
 private static final Object PRESENT = new Object();
 ```
 
-当执行`add()`操作时，就会讲value设置为上面这个`PRESENT
+當執行`add()`操作時，就會講value設置爲上麵這個`PRESENT
 
 ```java
  public boolean add(E e) {
@@ -178,24 +178,24 @@ private static final Object PRESENT = new Object();
 
 ## `TreeSet`
 
-TreeSet底层维护的是一个红黑树，可以实现插入元素的自动排序。
+TreeSet底層維護的是一個紅黑樹，可以實現插入元素的自動排序。
 
 ### `Comparator` and `Comparable`
 
-自动排序依赖的是元素实现的`Comparator`或者`Comparable`接口，在构造方法中也可以将实现的`Comparator`接口作为参数传入，并按照实现的接口的方式对`TreeSet`内的元素进行排序。
+自動排序依賴的是元素實現的`Comparator`或者`Comparable`接口，在構造方法中也可以將實現的`Comparator`接口作爲參數傳入，並按照實現的接口的方式對`TreeSet`內的元素進行排序。
 
 ```java
 TreeSet(Comparator<? super E> comparator)
 ```
 
-假如TreeSet的元素必须实现`Comparator`或者`Comparable`接口，或者在构造方法中传入一个`Comparator`的实现类。否则在向TreeSet中插入元素的时候会发生`ClassCastException`异常。
+假如TreeSet的元素必須實現`Comparator`或者`Comparable`接口，或者在構造方法中傳入一個`Comparator`的實現類。否則在向TreeSet中插入元素的時候會髮生`ClassCastException`異常。
 
-当在构造方法中传入`Comparator`的时候会覆盖原有方法中的`Comparable`或`Comparator`。
+當在構造方法中傳入`Comparator`的時候會覆蓋原有方法中的`Comparable`或`Comparator`。
 
-下面是一个例子
+下麵是一個例子
 
 ```java
-// 自定义Person类，实现了Comparable接口，先比较age再比较name
+// 自定義Person類，實現了Comparable接口，先比較age再比較name
 class Person implements Comparable<Person>{
 		private String name;
 
@@ -239,15 +239,15 @@ class Person implements Comparable<Person>{
     @Override
     public String toString() {
         return "Person{" +
-                "name='" + name + '\'' +
+                "name=''" + name + ''\'''' +
                 ", age=" + age +
-                '}';
+                ''}'';
     }
 }
 ```
 
 ```java
-// 测试
+// 測試
 Set<Person> set = new TreeSet<>();
 set.add(new Person("Jack", 23));
 set.add(new Person("Bob", 24));
@@ -261,15 +261,15 @@ for(Person p: set) {
 
 ```java
 Output:
-Person{name='Jack', age=23}
-Person{name='Sam', age=23}
-Person{name='Bob', age=24}
-Person{name='Amy', age=25}
-Person{name='Cathy', age=26}
+Person{name=''Jack'', age=23}
+Person{name=''Sam'', age=23}
+Person{name=''Bob'', age=24}
+Person{name=''Amy'', age=25}
+Person{name=''Cathy'', age=26}
 ```
 
 ```java
-// 重写Comparator， 先按照相反的顺序比较age，再比较name
+// 重冩Comparator， 先按照相反的順序比較age，再比較name
 Set<Person> set = new TreeSet<>(new Comparator<Person>() {
     @Override
     public int compare(Person o1, Person o2) {
@@ -291,41 +291,41 @@ Set<Person> set = new TreeSet<>(new Comparator<Person>() {
 
 ```java
 Output:
-Person{name='Cathy', age=26}
-Person{name='Amy', age=25}
-Person{name='Bob', age=24}
-Person{name='Jack', age=23}
-Person{name='Sam', age=23}
+Person{name=''Cathy'', age=26}
+Person{name=''Amy'', age=25}
+Person{name=''Bob'', age=24}
+Person{name=''Jack'', age=23}
+Person{name=''Sam'', age=23}
 ```
 
 # Map
 
-Map主要是存放类似`<key, value>`这样的键值对的数据结构。
+Map主要是存放類似`<key, value>`這樣的鍵值對的數據結構。
 
-`HashMap`的底层数据结构在Java8之前采用的是数组+链表的形式，数组的每一个元素即为哈希桶，同一个桶中存在多个元素时（发生哈希冲突）将同一个桶中的元素存储在链表中。
+`HashMap`的底層數據結構在Java8之前採用的是數組+鏈表的形式，數組的每一個元素即爲哈希桶，同一個桶中存在多個元素時（髮生哈希衝突）將同一個桶中的元素存儲在鏈表中。
 
-Java8之后对链表进行了改进，当链表长度超过阈值（默认值8）之后链表会被转化成红黑树，从而提高查询效率（从`O(n)`提升至`O(logn)`）
+Java8之後對鏈表進行了改進，當鏈表長度超過閾值（默認值8）之後鏈表會被轉化成紅黑樹，從而提高查詢效率（從`O(n)`提昇至`O(logn)`）
 
 ## `HashMap`
 
-### `null`值的处理
+### `null`值的處理
 
-`HashMap`的Key和Value都可以是`null`（Key只可以有一个`null`，Value可以有多个`null`）。
+`HashMap`的Key和Value都可以是`null`（Key隻可以有一個`null`，Value可以有多個`null`）。
 
-### 线程安全性
+### 線程安全性
 
-`HashMap`是Map接口的实现类之一。和`HashTable`相比`HashMap`**不是线程安全的**，并且为了避免多线程问题带来的问题，当遇到多线程问题时，应当使用`Collections.synchronizedMap`把`HashMap`包装成线程安全的Map或者直接使用`ConcurrentHashMap`
+`HashMap`是Map接口的實現類之一。和`HashTable`相比`HashMap`**不是線程安全的**，並且爲了避免多線程問題帶來的問題，當遇到多線程問題時，應當使用`Collections.synchronizedMap`把`HashMap`包裝成線程安全的Map或者直接使用`ConcurrentHashMap`
 
 ```java
 Map m = Collections.synchronizedMap(new HashMap(...));
 ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
 ```
 
-下面是一个存在线程安全问题的例子
+下麵是一個存在線程安全問題的例子
 
 ```java
 Map<String, Integer> map = new HashMap<>();
-// 第一个线程
+// 第一個線程
 Thread thread1 = new Thread() {
     @Override
     public void run() {
@@ -334,7 +334,7 @@ Thread thread1 = new Thread() {
         }
     }
 };
-// 第二个线程
+// 第二個線程
 Thread thread2 = new Thread() {
     @Override
     public void run() {
@@ -352,16 +352,16 @@ System.out.println(map.size());
 
 ```java
 Output:
-1992 （总是小于2000）
+1992 （總是小於2000）
 ```
 
-因为在单独使用`HashMap`的情况下，不能保证线程安全。
+因爲在單獨使用`HashMap`的情況下，不能保証線程安全。
 
-使用`Collections.synchronizedMap`包装HashMap之后
+使用`Collections.synchronizedMap`包裝HashMap之後
 
 ```java
 Map<String, Integer> map = Collections.synchronizedMap(new HashMap<>());
-// 第一个线程
+// 第一個線程
 Thread thread1 = new Thread() {
     @Override
     public void run() {
@@ -370,7 +370,7 @@ Thread thread1 = new Thread() {
         }
     }
 };
-// 第二个线程
+// 第二個線程
 Thread thread2 = new Thread() {
     @Override
     public void run() {
@@ -391,66 +391,66 @@ output:
 2000
 ```
 
-总结：Collections.synchronizedMap包装之后的HashMap可以保证线程安全，即在同一时间内只能有一个对map的操作生效，不会发生冲突，或者说所有对map的操作都是同步的，有严格的先后顺序的。
+總結：Collections.synchronizedMap包裝之後的HashMap可以保証線程安全，即在同一時間內隻能有一個對map的操作生效，不會髮生衝突，或者説所有對map的操作都是同步的，有嚴格的先後順序的。
 
-### 遍历顺序可变
+### 遍曆順序可變
 
-此外，HashMap不能保证遍历时的顺序不变（因为Key的存储取决于哈希值，当进行插入，删除或者`Rehashing`等操作的时候会改变Key之间的相对位置，从而改变遍历的顺序）。
+此外，HashMap不能保証遍曆時的順序不變（因爲Key的存儲取決於哈希值，當進行插入，刪除或者`Rehashing`等操作的時候會改變Key之間的相對位置，從而改變遍曆的順序）。
 
 ### `initial capacity` 和 `load factor`
 
-HashMap有两个参数`initial capacity`和`load factor`,可以在构造函数中进行设置。
+HashMap有兩個參數`initial capacity`和`load factor`,可以在構造函數中進行設置。
 
 ```java
-HashMap() // 默认initial capacity为16， load factor为0.75
-HashMap(int initialCapacity) // 只设置initial capacity
-HashMap(int initialCapacity, float loadFactor) // 两个参数都设置
-HashMap(Map<? extends K,? extends V> m) // 用另一个map构造HashMap
+HashMap() // 默認initial capacity爲16， load factor爲0.75
+HashMap(int initialCapacity) // 隻設置initial capacity
+HashMap(int initialCapacity, float loadFactor) // 兩個參數都設置
+HashMap(Map<? extends K,? extends V> m) // 用另一個map構造HashMap
 ```
 
-`Initial capacity`是哈希桶的初始数量。
+`Initial capacity`是哈希桶的初始數量。
 
-`load factor`是负载因子，用来衡量哈希表的密度。
+`load factor`是負載因子，用來衡量哈希表的密度。
 $$
 Load \ Factor(\alpha) = \frac{Number \ of \ Elements}{Capacity \ of \ Hash \ Table}
 $$
-当负载因子较小时说明哈希表比较稀疏，发生哈希碰撞的可能较小，但需要更多的内存空间。相反，负载因子过大时说明哈希表过于稠密，很容易发生哈希碰撞，降低了查找，插入和删除的效率，但减少了内存消耗。
+當負載因子較小時説明哈希表比較稀疏，髮生哈希碰撞的可能較小，但需要更多的內存空間。相反，負載因子過大時説明哈希表過於稠密，很容易髮生哈希碰撞，降低了查找，插入和刪除的效率，但減少了內存消耗。
 
-在HashMap中，`load factor`的默认值为0.75，意味着当HashMap的元素达到当前`capacity`的75%时HashMap就会自动进行`Rehashing`并且**自动扩容**为原来的两倍。
+在HashMap中，`load factor`的默認值爲0.75，意味着當HashMap的元素達到當前`capacity`的75%時HashMap就會自動進行`Rehashing`並且**自動擴容**爲原來的兩倍。
 
-HashMap的基本操作（`get()`, `put()`等）的时间复杂度都是`O(1)`，但这依赖于对两个基本参数`initial capacity`和`load factor`的合理设置。
+HashMap的基本操作（`get()`, `put()`等）的時間複雜度都是`O(1)`，但這依賴於對兩個基本參數`initial capacity`和`load factor`的合理設置。
 
 ### Fieids
 
-HashMap的底层是一个`Node<K, V>`类型的数组，这个数组其实就是哈希桶，每一个桶可以存放一个`Node`，实际上就是链表（或红黑树）
+HashMap的底層是一個`Node<K, V>`類型的數組，這個數組其實就是哈希桶，每一個桶可以存放一個`Node`，實際上就是鏈表（或紅黑樹）
 
 ```java
 transient Node<K,V>[] table;
 ```
 
-Node是HashMap的一个内部类
+Node是HashMap的一個內部類
 
 ```java
 static class Node<K,V> implements Map.Entry<K,V> {
         final int hash; // 哈希值
         final K key; // Key
         V value; // Value
-        Node<K,V> next; // 后继节点
+        Node<K,V> next; // 後繼節點
 ```
 
 ## `LinkedHashMap`
 
-`LinkedHashMap`是`HashMap`的子类，在`HashMap`的基础上添加了**双向链表**来保证遍历的顺序。当在需要保证遍历顺序和插入顺序相同的场景下`LinkedHashMap`非常合适。
+`LinkedHashMap`是`HashMap`的子類，在`HashMap`的基礎上添加了**雙向鏈表**來保証遍曆的順序。當在需要保証遍曆順序和插入順序相同的場景下`LinkedHashMap`非常合適。
 
 ### `accessOrder`
 
-`LinkedHashMap`和`HashMap`相比多了一个特别的构造方法
+`LinkedHashMap`和`HashMap`相比多了一個特別的構造方法
 
 ```java
 LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
 ```
 
-新参数`accessOrder`是一个布尔值，默认为`false`，表示按照**插入顺序**进行遍历，为`true`时表示按照**访问顺序**排序（访问过的元素排在末尾）。可见当按照访问顺序遍历时非常适合用来模拟LRU缓存。
+新參數`accessOrder`是一個佈爾值，默認爲`false`，表示按照**插入順序**進行遍曆，爲`true`時表示按照**訪問順序**排序（訪問過的元素排在末尾）。可見當按照訪問順序遍曆時非常適合用來模擬LRU緩存。
 
 ```java
 import java.util.LinkedHashMap;
@@ -470,18 +470,18 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 }
 ```
 
-`removeEldestEntry`会在`put`方法被调用时被执行，如果返回值为true就会移除首个元素。
+`removeEldestEntry`會在`put`方法被調用時被執行，如果返回值爲true就會移除首個元素。
 
-下面是测试代码
+下麵是測試代碼
 
 ```java
 LRUCache<Integer, Integer> cache = new LRUCache<>(5);
 
 for(int i = 0; i < 5; i ++) {
   cache.put(i, i);
-} // 此时的顺序为 0 1 2 3 4
-cache.get(0); // 由于设置accessOrder为true， 所以0被放到了末尾，顺序变为 1 2 3 4 0
-cache.put(5, 5); // 1 2 3 4 0 5 此时超过了capacity触发removeEldestEntry，移除了首个元素1
+} // 此時的順序爲 0 1 2 3 4
+cache.get(0); // 由於設置accessOrder爲true， 所以0被放到了末尾，順序變爲 1 2 3 4 0
+cache.put(5, 5); // 1 2 3 4 0 5 此時超過了capacity觸髮removeEldestEntry，移除了首個元素1
 for(Integer key: cache.keySet()) {
   System.out.println(key);
 }
@@ -492,6 +492,6 @@ Output:
 2 3 4 0 5
 ```
 
-此外，和`HashMap`不同的是`LinkedHashMap`在遍历的时候不受`capacity`的影响，因为`LinkedHashMap`按照双向链表遍历而不是遍历哈希桶。
+此外，和`HashMap`不同的是`LinkedHashMap`在遍曆的時候不受`capacity`的影響，因爲`LinkedHashMap`按照雙向鏈表遍曆而不是遍曆哈希桶。
 
-同样的，`LinkedHashMap`也不是线性安全的，在多线程并发场景下需要使用`Collections.synchronizedMap()`进行包装。
+同樣的，`LinkedHashMap`也不是線性安全的，在多線程並髮場景下需要使用`Collections.synchronizedMap()`進行包裝。
