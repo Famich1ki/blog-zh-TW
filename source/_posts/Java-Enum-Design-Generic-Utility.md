@@ -9,14 +9,13 @@ categories:
 cover: https://pics.findfuns.org/java-enumeration.png
 ---
 
-
-```
-# Java 枚舉設計與泛型工具類 – 學習筆記
+# Java 枚舉設計與泛型工具類
 
 ## 1. 問題背景
 
 在很多業務場景中，枚舉需要從 `String` 值進行轉換：
 
+```
 ​```java
 StudentStatus.from("enrolled");
 ```
